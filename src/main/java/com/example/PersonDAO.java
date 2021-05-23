@@ -36,10 +36,12 @@ public class PersonDAO {
     }
 
     public void init() throws ClassNotFoundException {
+        System.out.println("init method called...");
         createConnection();
     }
 
     public void destroy() {
+        System.out.println("destroy method called...");
         closeConnection();
     }
 
