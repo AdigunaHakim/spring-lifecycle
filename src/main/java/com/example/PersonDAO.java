@@ -1,7 +1,5 @@
 package com.example;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import java.sql.*;
 
 public class PersonDAO {
