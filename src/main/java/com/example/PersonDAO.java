@@ -35,12 +35,10 @@ public class PersonDAO {
         this.password = password;
     }
 
-    @PostConstruct
     public void init() throws ClassNotFoundException {
         createConnection();
     }
 
-    @PreDestroy
     public void destroy() {
         closeConnection();
     }
