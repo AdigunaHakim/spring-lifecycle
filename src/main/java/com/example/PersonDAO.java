@@ -1,10 +1,11 @@
 package com.example;
 
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
+
 import java.sql.*;
 
-public class PersonDAO {
+public class PersonDAO implements InitializingBean, DisposableBean {
     private String driver;
     private String url;
     private String user;
@@ -35,11 +36,15 @@ public class PersonDAO {
         this.password = password;
     }
 
-    public void init() throws ClassNotFoundException {
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("init method called...");
         createConnection();
     }
 
+    @Override
     public void destroy() {
+        System.out.println("destroy method called...");
         closeConnection();
     }
 
