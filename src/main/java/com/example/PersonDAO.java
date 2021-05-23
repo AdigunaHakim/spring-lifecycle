@@ -37,11 +37,13 @@ public class PersonDAO {
 
     @PostConstruct
     public void init() throws ClassNotFoundException {
+        System.out.println("init method called...");
         createConnection();
     }
 
     @PreDestroy
     public void destroy() {
+        System.out.println("destroy method called...");
         closeConnection();
     }
 
