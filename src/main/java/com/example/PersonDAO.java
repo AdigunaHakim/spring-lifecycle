@@ -1,5 +1,7 @@
 package com.example;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.sql.*;
 
 public class PersonDAO {
@@ -31,6 +33,16 @@ public class PersonDAO {
     public void setPassword(String password) {
         System.out.println("setPassword called...");
         this.password = password;
+    }
+
+    @PostConstruct
+    public void init() throws ClassNotFoundException {
+        createConnection();
+    }
+
+    @PreDestroy
+    public void destroy() {
+        closeConnection();
     }
 
     public void createConnection() throws ClassNotFoundException {
