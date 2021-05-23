@@ -9,27 +9,36 @@ public class PersonDAO {
     private String password;
     private Connection connection;
 
+    public PersonDAO() {
+        System.out.println("no arg constructor called...");
+    }
+
     public void setDriver(String driver) {
+        System.out.println("setDriver called...");
         this.driver = driver;
     }
 
     public void setUrl(String url) {
+        System.out.println("setUrl called...");
         this.url = url;
     }
 
     public void setUser(String user) {
+        System.out.println("setUser called...");
         this.user = user;
     }
 
     public void setPassword(String password) {
+        System.out.println("setPassword called...");
         this.password = password;
     }
 
     public void createConnection() throws ClassNotFoundException {
         Class.forName(driver);
+        System.out.println("createConnection called...");
 
         try {
-            connection = DriverManager.getConnection(url, user, password);
+            connection = DriverManager.getConnection(String.format("%s?user=%s&password=%s&serverTimezone=UTC", url, user, password));
 
             System.out.println("createConnection successful...");
         } catch (SQLException e) {
@@ -38,6 +47,8 @@ public class PersonDAO {
     }
 
     public void closeConnection() {
+        System.out.println("closeConnection called...");
+
         try {
             connection.close();
             System.out.println("closeConnection successful...");
@@ -46,17 +57,39 @@ public class PersonDAO {
         }
     }
 
-    public void getAll(){
-        try {
-            Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT * FROM person");
+    public void findAll() throws SQLException {
+        Statement statement = null;
 
-            while (rs.next()){
-                System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+        try {
+            statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM person");
+
+            while (resultSet.next()) {
+                System.out.println(resultSet.getInt(1) + "  " + resultSet.getString(2) + "  " + resultSet.getString(3));
             }
-            System.out.println("getAll personal data successful...");
+            System.out.println("findAll personal data successful...");
         } catch (SQLException e) {
-            System.out.println("getAll personal data failed...");
+            System.out.println("findAll personal data failed...");
+        } finally {
+            assert statement != null;
+            statement.close();
+        }
+    }
+
+    public void insert(String name, String address) throws SQLException {
+        Statement statement = null;
+
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate("INSERT INTO person (name, address) VALUES ('" + name + "', '" + address + "')");
+
+            System.out.println("insert personal data successful...");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("insert personal data failed...");
+        } finally {
+            assert statement != null;
+            statement.close();
         }
     }
 }
