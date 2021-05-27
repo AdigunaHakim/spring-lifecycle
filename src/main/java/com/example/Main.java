@@ -13,6 +13,7 @@ public class Main {
         PersonDAO personDAO = context.getBean("personDAO", PersonDAO.class);
         personDAO.findAll();
 
-        context.close();
+        context.registerShutdownHook();
+        System.out.println("Call again : " + context.getBean("personDAO", PersonDAO.class));
     }
 }

@@ -13,4 +13,6 @@
         <property name="user" value="root"/>
         <property name="password" value="P@ssw0rd"/>
     </bean>
+
+    <bean id="CustomBeanPostProcessor" class="com.example.CustomBeanPostProcessor"/>
 </beans>
